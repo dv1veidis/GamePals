@@ -6,7 +6,8 @@ import {Link, useHistory} from 'react-router-dom'
 export default function Dashboard() {
     const [error, setError]=useState("")
     const history = useHistory()
-    const {logout}= useAuth()
+    const { logout, currentUser } = useAuth()
+
    async function handleLogout(){
         setError('')
 
@@ -21,10 +22,11 @@ export default function Dashboard() {
     <>
         <Card>
             <Card.Body>
-                <h2 className="text-center mb-4">Profile</h2>
+                    <h2 className="text-center mb-4">Profile</h2>
+                    
                 {error && <Alert variant="danger">{error}</Alert>}
-                <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
-                    Update Profile
+                <Link to="/view-profile" className="btn btn-primary w-100 mt-3">
+                    View Profile
                 </Link>
             </Card.Body>
         </Card>

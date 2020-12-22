@@ -1,15 +1,17 @@
 import React, { useRef, useState } from "react"
 import {Form, Button, Card, Alert } from "react-bootstrap"
 import {useAuth } from '../context/AuthContext'
-import {Link, useHistory} from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
+import { database } from '../firebase'
 
 
 
 export default function Signup() {
-    const emailRef= useRef()
+    const emailRef = useRef()
     const passwordRef= useRef()
-    const passwordConfirmRef= useRef()
-    const {signup} = useAuth()
+    const passwordConfirmRef = useRef()
+    const displayNameRef = useRef()
+    const { signup } = useAuth()
     const [error, setError]= useState('')
     const [loading, setLoading]=useState(false)
     const history = useHistory()
@@ -23,13 +25,20 @@ export default function Signup() {
         try{
             setError('')
             setLoading(true)
-        await signup(emailRef.current.value, passwordRef.current.value)
+            var result = (await signup(emailRef.current.value, passwordRef.current.value, displayNameRef.current.value))
+            database.ref('users/' + result.user.uid).set({
+                username: displayNameRef.current.value,
+                profilePicUrl: "",
+                description: ""
+            });
         history.push("/")
-    }catch{
-        setError("Failed to create an account")
+    }catch(error){
+            setError("Failed to create an account")
+            console.log(error)
     }
-    setLoading(false)
+        setLoading(false)
     }
+ 
     return (
         <>
             <Card>
@@ -40,6 +49,10 @@ export default function Signup() {
                         <Form.Group id = "email">
                             <Form.Label>Email</Form.Label>
                             <Form.Control type="email" ref={emailRef} required />
+                        </Form.Group>
+                        <Form.Group id="displayName">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control type="displayName" ref={displayNameRef} required />
                         </Form.Group>
                         <Form.Group id = "password">
                             <Form.Label>Password</Form.Label>

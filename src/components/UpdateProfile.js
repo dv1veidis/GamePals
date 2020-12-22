@@ -1,22 +1,32 @@
 import React, { useRef, useState } from "react"
 import {Form, Button, Card, Alert } from "react-bootstrap"
 import {useAuth } from '../context/AuthContext'
-import {Link, useHistory} from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
+import { database } from '../firebase'
 
-
+function isChangingPassword(password, passwordConfirmation) {
+    return password && passwordConfirmation
+}
 
 export default function UpdateProfile() {
-    const emailRef= useRef()
     const passwordRef= useRef()
-    const passwordConfirmRef= useRef()
-    const {currentUser, updateEmail, updatePassword} = useAuth()
+    const passwordConfirmRef = useRef()
+    const photoUrlRef = useRef()
+    const descriptionRef = useRef()
+    const { currentUser, updatePassword } = useAuth()
     const [error, setError]= useState('')
     const [loading, setLoading]=useState(false)
     const history = useHistory()
+    var currentValues = {}
+    var leadsRef = database.ref('users/' + currentUser.uid);
+    leadsRef.on('value', function (snapshot) {
+        currentValues = snapshot.val()
+    });
    
      function handleSubmit(e){
         e.preventDefault()
 
+        
         if(passwordRef.current.value !== passwordConfirmRef.current.value ){
             return setError('Passwords do not match')
         }
@@ -24,12 +34,16 @@ export default function UpdateProfile() {
         const promises = []
         setLoading(true)
         setError("")
-        if (emailRef.current.value !== currentUser.email){
-            promises.push(updateEmail(emailRef.current.value))
-        }
-        if (passwordRef.current.value !== currentUser.password){
-            promises.push(updatePassword(passwordRef.current.value))
-        }
+        if (isChangingPassword(passwordRef.current.value, passwordConfirmRef.current.value)){
+        promises.push(updatePassword(passwordRef.current.value))
+         }
+
+
+         database.ref('users/' + currentUser.uid).set({
+             username: currentValues.username,
+             profilePicUrl: photoUrlRef.current.value ? photoUrlRef.current.value : currentValues.profilePicUrl,
+             description: descriptionRef.current.value ? descriptionRef.current.value : currentValues.description
+         });
 
         Promise.all(promises).then(()=>{
             history.push('/')
@@ -38,6 +52,9 @@ export default function UpdateProfile() {
         }).finally(()=>{
             setLoading(false)
         })
+
+
+
     }
     return (
         <>
@@ -45,11 +62,15 @@ export default function UpdateProfile() {
                 <Card.Body>
                     <h2 className="text-center mb-4">Update Profile</h2>
                     {error && <Alert variant="danger">{error}</Alert>}
-                    <Form onSubmit ={handleSubmit}>
-                        <Form.Group id = "email">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" ref={emailRef} required defaultValue={currentUser.email} />
-                        </Form.Group>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group id="photoUrl">
+                            <Form.Label>Change profile picture</Form.Label>
+                            <Form.Control type="photoUrl" ref={photoUrlRef} placeholder="Select new profile picture" />
+                        </Form.Group> 
+                        <Form.Group id="description">
+                            <Form.Label>Change Description</Form.Label>
+                            <Form.Control type="description" ref={descriptionRef} placeholder={currentUser.description} />
+                        </Form.Group> 
                         <Form.Group id = "password">
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" ref={passwordRef}  placeholder="Leave blank to keep the same password"/>
@@ -62,9 +83,12 @@ export default function UpdateProfile() {
                     </Form>
                 </Card.Body>
             </Card>
-            <div className="w-100 text-center mt-2">
-                <Link to="/">Cancel</Link>
-            </div>
+            <Link to="/view-profile" className="btn btn-primary w-100 mt-3">
+                Back to profile
+                </Link>
+            <Link to="/" className="btn btn-primary w-100 mt-3">
+                Back to dashboard
+                </Link>
         </>
     )
 }
