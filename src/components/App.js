@@ -10,10 +10,11 @@ import ForgotPassword from './ForgotPassword'
 import UpdateProfile from './UpdateProfile'
 import ViewProfile from './ViewProfile';
 
-function App(){
 
+
+function App(){
+    document.body.style = 'background: #1761A0;';
     return( 
-        
         <Container
          className="d-flex align-items-center justify-content-center"
          style={{minHeight: "100vh"}}
@@ -33,6 +34,7 @@ function App(){
         </Router>
     </div>
         </Container>
+       
         
     )
 }

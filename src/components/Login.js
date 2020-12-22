@@ -2,6 +2,9 @@ import React, { useRef, useState } from "react"
 import {Form, Button, Card, Alert } from "react-bootstrap"
 import {useAuth} from '../context/AuthContext'
 import {Link, useHistory} from "react-router-dom"
+import logo from '../images/Logo.png'
+import name from '../images/Name.png'
+import experimental from '../images/Experimental.png'
 
 
 export default function Login() {
@@ -27,6 +30,9 @@ export default function Login() {
     }
     return (
         <>
+            <div div className="text-center">
+            <img src = {experimental} alt='Experimental' />
+            </div>
             <Card>
                 <Card.Body>
                     <h2 className="text-center mb-4">Log In</h2>
@@ -37,7 +43,7 @@ export default function Login() {
                             <Form.Control type="email" ref={emailRef} required />
                         </Form.Group>
                         <Form.Group id = "password">
-                            <Form.Label>password</Form.Label>
+                            <Form.Label>Password</Form.Label>
                             <Form.Control type="password" ref={passwordRef} required />
                         </Form.Group> 
                         <Button disabled = {loading} className ="w-100"type="submit">Log In</Button>
