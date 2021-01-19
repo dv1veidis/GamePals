@@ -3,6 +3,10 @@ import {Form, Button, Card, Alert, Container } from "react-bootstrap"
 import {useAuth } from '../context/AuthContext'
 import { Link, useHistory } from "react-router-dom"
 import { database } from '../firebase'
+import Sidebar from '../Dashboard/components/Sidebar/Sidebar'
+import { GlobalStyles } from '../Dashboard/styles/global'
+import { mainTheme} from '../Dashboard/styles/theme'
+import { ThemeProvider } from 'styled-components'
 
 function isChangingPassword(password, passwordConfirmation) {
     return password && passwordConfirmation
@@ -46,37 +50,40 @@ export default function UpdateProfile() {
          });
 
         Promise.all(promises).then(()=>{
-            history.push('/')
+            history.push('/view-profile')
         }).catch(()=>{
            setError("Failed to update account") 
         }).finally(()=>{
             setLoading(false)
         })
 
-
-
     }
     return (
         <>
+        <div className="text-center">
         
+             <ThemeProvider theme={ mainTheme }>
+            <GlobalStyles />
+            <Sidebar />
+            </ThemeProvider>
+        </div>
         <Container
         className="d-flex align-items-center justify-content-center"
         style={{minHeight: "100vh"}}
         >  
         
         <div className="w-100" style={{maxWidth: "400px"}}>
-            <Card>
-                <Card.Body>
+           
                     <h2 className="text-center mb-4">Update Profile</h2>
                     {error && <Alert variant="danger">{error}</Alert>}
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id="photoUrl">
-                            <Form.Label>Change profile picture</Form.Label>
+                            <Form.Label>Change profile picture(Use a url of a picture on the internet)</Form.Label>
                             <Form.Control type="photoUrl" ref={photoUrlRef} placeholder="Select new profile picture" />
                         </Form.Group> 
                         <Form.Group id="description">
-                            <Form.Label>Change Description</Form.Label>
-                            <Form.Control type="description" ref={descriptionRef} placeholder={currentUser.description} />
+                            <Form.Label>Change Description(up to 100 characters)</Form.Label>
+                            <Form.Control type="description" ref={descriptionRef} placeholder={currentUser.description} maxLength="100"/>
                         </Form.Group> 
                         <Form.Group id = "password">
                             <Form.Label>Password</Form.Label>
@@ -88,14 +95,9 @@ export default function UpdateProfile() {
                         </Form.Group>
                         <Button disabled = {loading} className ="w-100"type="submit">Update</Button>
                     </Form>
-                </Card.Body>
-            </Card>
             <div className="w-100 text-center mt-2">
-            <Link to="/view-profile" className="btn btn-info w-30 mt-1 mx-4">
-                Back to profile
-                </Link>
-            <Link to="/Dashboard" className="btn btn-info w-30 mt-1 mx-4">
-                Back to dashboard
+            <Link to="/view-profile" className="btn btn-info w-100 mt-3">
+                Back
                 </Link>
             </div>
             </div>

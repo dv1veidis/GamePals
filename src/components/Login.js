@@ -2,18 +2,19 @@ import React, { useRef, useState } from "react"
 import {Form, Button, Card, Alert, Container } from "react-bootstrap"
 import {useAuth} from '../context/AuthContext'
 import {Link, useHistory} from "react-router-dom"
-import logo from '../images/Logo.png'
-import name from '../images/Name.png'
-import experimental from '../images/Experimental.png'
+import font1 from '../images/font1.jpg'
+import Logo from '../images/Logo.png'
+import './style.css'
 
 
 export default function Login() {
     const emailRef= useRef()
     const passwordRef= useRef()
-    const {login} = useAuth()
+    const {login, logout, currentUser} = useAuth()
     const [error, setError]= useState('')
     const [loading, setLoading]=useState(false)
     const history = useHistory()
+
    
     async function handleSubmit(e){
         e.preventDefault()
@@ -23,20 +24,43 @@ export default function Login() {
             setLoading(true)
         await login(emailRef.current.value, passwordRef.current.value)
         history.push("/Dashboard")
+        
     }catch{
         setError("Failed to log in")
     }
     setLoading(false)
     }
+
+    if (loading){
+        return <h1>Loading...</h1>
+    }
     return (
+        
+        <div style={{ backgroundImage: `url(${font1})` ,
+        backgroundRepeat: 'no-repeat',
+        width:'100%' }}>
         <>
+        
+        <nav>
+        <div className="d-flex justify-content-center align-items-center" style={{width:"100%"}}>
+        <div className="logo">
+            <p><h4>Game pals</h4></p>
+        </div>
+        <ul className="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About us</a></li>
+            <li><a href="/signup">Sign Up</a></li>
+            <li><a href="/login">Login</a></li>
+        </ul>
+        </div>
+    </nav>
             <Container
-         className="d-flex align-items-center justify-content-center"
+         className="d-flex align-items-center justify-content-end"
          style={{minHeight: "100vh"}}
          >  
          <div className="w-100" style={{maxWidth: "400px"}}>
             <div div className="text-center">
-            <img src = {experimental} alt='Experimental' />
+            <img src = {Logo} alt='logo' />
             </div>
             <Card>
                 <Card.Body>
@@ -56,17 +80,18 @@ export default function Login() {
                     <div className="w-100 text-center mt-2">
                         <Link to="/forgot-password">Forgot Password?</Link>
                     </div>
-                </Card.Body>
-            </Card>
-            <div className="w-100 text-center mt-2">
+                    <div className="w-100 text-center mt-2">
                 Dont have an account? <Link to="/signup">Sign up here</Link>
             </div>
+                </Card.Body>
+            </Card>
+            
             <Link to="/" className="btn btn-primary w-100 mt-3">
                 Back to Main page
             </Link> </div>
              </Container>
             
         </>
-       
+       </div>
     )
 }

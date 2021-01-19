@@ -1,10 +1,9 @@
-import './App.css';
 import React from 'react';
 import Signup from './Signup';  
-import {Container} from 'react-bootstrap'
 import {AuthProvider} from '../context/AuthContext'
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
-import Dashboard from './Dashboard'
+
+import Dashboard from '../Dashboard/Dashboard'
 import Login from './Login'
 import PrivateRoute from './PrivateRoute'
 import ForgotPassword from './ForgotPassword'
@@ -13,16 +12,19 @@ import UpdateProfile from './UpdateProfile'
 import ViewProfile from './ViewProfile';
 import TopGames from "./TopGames";
 import Search from "./Search";
-import Nav from "./Nav";
 import GameDetail from "./GameDetail";
+import Listings from './Listings';
+import SingleListing from './SingleListing';
+import About from './About';
+
 
 
 function App(){
-    document.body.style = 'background: #1761A0;';
     return( 
     <Router>
         <AuthProvider>
-                        <Switch>
+                <Switch>
+                <Route exact path="/About" component={About}/>
                 <Route exact path="/" component={MainPage} />
                 <PrivateRoute exact path="/Dashboard" component={Dashboard} />
                 <PrivateRoute path="/update-profile" component={UpdateProfile} />
@@ -33,6 +35,8 @@ function App(){
                 <Route path="/signup" component={Signup} />
                 <Route path="/login" component={Login} />
                 <Route path="/forgot-password" component={ForgotPassword} />
+                <PrivateRoute path="/listings" component={Listings}/>
+                <PrivateRoute path="/singlelisting/:title" component={SingleListing} />
             </Switch>
         </AuthProvider>
         </Router>

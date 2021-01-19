@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { Button, Card, Alert } from "react-bootstrap"   
+import Sidebar from '../Dashboard/components/Sidebar/Sidebar'
+import { GlobalStyles } from '../Dashboard/styles/global'
+import { mainTheme} from '../Dashboard/styles/theme'
+import { ThemeProvider } from 'styled-components'
 
 const TopGames = () => {
 
@@ -11,24 +15,22 @@ const TopGames = () => {
   const [games, setGames] = useState([])
 
   const fetchGames = () => {
-    fetch('https://rawg.io/api/collections/must-play/games')
+    fetch('https://api.rawg.io/api/games?dates=2020-01-01,2020-12-31&ordering=-added')
     .then(resp => resp.json())
     .then(({results}) => setGames(results))
   }
 
     return (
         <>
-      <div className="text-center">
-      <Link to="/Dashboard" className="btn btn-info w-20 mt-1 mb-1 mx-1">
-                Dashboard
-      </Link>
-      <Link to="/Search" className="btn btn-info w-20 mt-1 mb-1 mx-1">
-                Search 
-      </Link>
-    
+      <div>
+             <ThemeProvider theme={ mainTheme }>
+            <GlobalStyles />
+            <Sidebar />
+            </ThemeProvider>
     </div>
-            <Card>
-                <Card.Body>
+     <div>
+     <a href="https://rawg.io/"><h1 className="text-center mb-4">Powered by RAWG.io</h1></a>
+    </div>       
     <div className="text-center">
       <ul>
       {
@@ -48,8 +50,6 @@ const TopGames = () => {
       }
       </ul>
                     </div>
-            </Card.Body>
-          </Card>
     </>
   )
 }

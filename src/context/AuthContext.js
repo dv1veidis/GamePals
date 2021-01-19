@@ -1,7 +1,8 @@
 
 
 import React, {useContext, useState, useEffect} from 'react'
-import { auth } from '../firebase'
+import { auth} from '../firebase'
+
 
 const AuthContext = React.createContext()
 
@@ -11,14 +12,20 @@ export function useAuth(){
 
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState()
-    const [loading, setLoading] = useState(true)    
+    const [loading, setLoading] = useState(true)  
 
     function signup(email, password, displayName) {
         return auth.createUserWithEmailAndPassword(email, password)
     }
 
+    function verifyEmail (){
+        return auth.currentUser.sendEmailVerification()
+    }
+
     function login(email, password) {
+        
         return auth.signInWithEmailAndPassword(email, password)
+       
     }
 
     function logout() {
@@ -65,6 +72,7 @@ export function AuthProvider({ children }) {
         updatePhotoUrl,
         updateDisplayName,
         updateDescription,
+        verifyEmail,
     }
 
     return (

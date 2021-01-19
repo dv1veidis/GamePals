@@ -1,26 +1,33 @@
 import { Link } from 'react-router-dom'
-import { Button, Card, Alert } from "react-bootstrap"
-const GameDetail = (props) => {
+import Sidebar from '../Dashboard/components/Sidebar/Sidebar'
+import { GlobalStyles } from '../Dashboard/styles/global'
+import { mainTheme} from '../Dashboard/styles/theme'
+import { ThemeProvider } from 'styled-components'
+
+function GameDetail (props) {
 
   const { game } = props.location.gameProps
 
     return (
         <>
     <div className="text-center">
-      <Link to="/Dashboard" className="btn btn-info w-20 mt-1 mb-1 mx-1">
-                Dashboard
-      </Link>
+
       <Link to="/Search" className="btn btn-info w-20 mt-1 mb-1 mx-1">
-                Search 
+                Back to search
       </Link>
-            <Link to="/TopGames" className="btn btn-info w-20 mt-1 mb-1 mx-1">
-             Top games
-    </Link>
+      <Link to="/Dashboard" className="btn btn-info w-20 mt-1 mb-1 mx-1">
+                Back to the dashboard
+      </Link>
+      <div>
+             <ThemeProvider theme={ mainTheme }>
+            <GlobalStyles />
+            <Sidebar />
+            </ThemeProvider>
+        </div>
     
     </div>
             <div className="text-center">
-                <Card>
-                <Card.Body>
+
       <h1>{game.name}</h1>
       <p>Released: {game.released}</p>
       <p>Rating: {game.rating}</p>
@@ -33,8 +40,7 @@ const GameDetail = (props) => {
         { 
           game.platforms.map(p => `${p.platform.name} | `)
         }
-            </Card.Body>
-                    </Card>
+
       <ul>
         {
                         game.short_screenshots.map(ss => <li><img src={ss.image} alt='screenshot'></img></li>)

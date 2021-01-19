@@ -3,7 +3,8 @@ import {Form, Button, Card, Alert, Container } from "react-bootstrap"
 import {useAuth} from '../context/AuthContext'
 import {Link} from "react-router-dom"
 import logo from '../images/Logo.png'
-import experimental from '../images/Experimental.png'
+import font from '../images/font1.jpg'
+import './style.css'
 
 export default function ForgotPassword() {
     const emailRef= useRef()
@@ -27,14 +28,30 @@ export default function ForgotPassword() {
     setLoading(false)
     }
     return (
+    <div style={{ backgroundImage: `url(${font})` ,
+        backgroundRepeat: 'no-repeat',
+        width:'100%' }}>
         <>  
+        <nav>
+            <div className="d-flex justify-content-center align-items-center" style={{width:"100%"}}>
+            <div className="logo">
+            <p><h4>Game pals</h4></p>
+        </div>
+        <ul className="nav-links" >
+            
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About us</a></li>
+            <li><a href="/signup">Sign Up</a></li>
+            <li><a href="/login">Login</a></li>
+        </ul></div> 
+    </nav>
             <Container
-         className="d-flex align-items-center justify-content-center"
+         className="d-flex align-items-center justify-content-end"
          style={{minHeight: "100vh"}}
          >  
          <div className="w-100" style={{maxWidth: "400px"}}>
             <div div className="text-center">
-            <img src = {experimental} alt='Experimental' />
+            <img src = {logo} alt='logo' />
             </div>     
             <Card>
                 <Card.Body>
@@ -51,13 +68,16 @@ export default function ForgotPassword() {
                     <div className="w-100 text-center mt-2">
                         <Link to="/login">Login</Link>
                     </div>
-                </Card.Body>
-            </Card>
-            <div className="w-100 text-center mt-2">
+                    <div className="w-100 text-center mt-2">
                 Dont have an account? <Link to="/signup">Sign up here</Link>
             </div>
+                </Card.Body>
+            </Card>
+            
             </div>
             </Container>
+            
         </>
+        </div>
     )
 }
