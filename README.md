@@ -2,7 +2,7 @@
 
 ## Dalyviai
 
-### Karolis Seibutis - front page padarymas
+### Karolis Seibutis - Main page padarymas
 ### Julius Ivoska - profiliu perziurejimo ir keitimo padarymas
 ### Migle Kirsyte - dokumentacija, pristatymas
 ### Giedrius Lukosevicius - zaidimu rekomendacijos ir zaidimu grazinimas is RAWG.io database
