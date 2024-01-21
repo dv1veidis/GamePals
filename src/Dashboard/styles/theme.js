@@ -13,8 +13,8 @@ const globalTheme = {
 
 
 export const mainTheme = {
-    primary: '#DEDFDF',
-    secondary: '#003D4D ',
+    primary: '#DEDED',
+    secondary: '#000061 ',
     textColor: '#003D4D',
     header: '#585280',
     headerNumber: '#FFF',

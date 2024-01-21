@@ -15,7 +15,7 @@ const TopGames = () => {
   const [games, setGames] = useState([])
 
   const fetchGames = () => {
-    fetch('https://api.rawg.io/api/games?key=93cbf9165d36478babf7db6b59b391a3&dates=2023-01-01,2023-12-31&ordering=-added')
+    fetch('https://api.rawg.io/api/games?key=93cbf9165d36478babf7db6b59b391a3&dates=2023-01-01,2023-12-31&ordering=-added&page_size=5')
     .then(resp => resp.json())
     .then(({results}) => setGames(results))
   }
@@ -42,14 +42,14 @@ const TopGames = () => {
                   game: game
                 }
               }}>
-                    <h3 className="text-center mb-4">{game.name}</h3>
-            <img src={game.background_image} alt="game" c/>
+                <h3 className="text-center mb-4">{game.name}</h3>
+                <img src={game.background_image} alt={game.id} width="640" height="360"/>
             </Link>
           </li>
         ))
       }
       </ul>
-                    </div>
+    </div>
     </>
   )
 }

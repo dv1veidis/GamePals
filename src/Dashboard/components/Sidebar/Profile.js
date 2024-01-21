@@ -29,7 +29,7 @@ const Profile = () => {
     return (
         <Container>
 
-            <ProfileImg src={profile.profilePicUrl} />
+            <ProfileImg src={profile.profilePicUrl} alt="Profile image"/>
             <ProfileName>{profile.username}</ProfileName>
         </Container>
     )

@@ -21,11 +21,7 @@ const Dashboard = () => {
         <div className="text-center">
             <h1>{profile.username}!</h1>
             <h2>These are the games we recommend you try out</h2>
-             <ThemeProvider theme={ mainTheme }>
-            <GlobalStyles />
-            <SideBar />
             <TopGames />
-            </ThemeProvider>
         </div>
         </>
     )
